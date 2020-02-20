@@ -3,11 +3,12 @@ package main
 import (
 	"io/ioutil"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 )
 
-const dataFolder = "data"
+const dataFolder = "../data"
 
 type Input struct {
 	BooksTotal int
@@ -15,7 +16,7 @@ type Input struct {
 	Days int
 
 	BooksScore BooksScore
-	Libraries []Library
+	Libraries []*Library
 }
 
 type BooksScore []int
@@ -24,6 +25,12 @@ type Library struct {
 	DaysForSignUp int
 	BooksShippedPerDay int
 	Books map[BookID]struct{}
+	BestBooks []SortedBook
+}
+
+type SortedBook struct {
+	Book BookID
+	Score int
 }
 
 func LoadInput(name string) *Input {
@@ -46,9 +53,25 @@ func LoadInput(name string) *Input {
 		panic(err.Error())
 	}
 
-	return Parse(string(fileContent))
+	return PostProcess(Parse(string(fileContent)))
 }
 
+func PostProcess(i *Input) *Input {
+	var sortedBooks []SortedBook
+	for _, library := range i.Libraries {
+		for book, _ := range library.Books {
+			sortedBooks = append(sortedBooks, SortedBook{
+				Book:  book,
+				Score: i.BooksScore[book],
+			})
+		}
+		library.BestBooks = sortedBooks
+		sort.Slice(library.BestBooks, func(i, j int) bool {
+			return library.BestBooks[i].Score > library.BestBooks[j].Score
+		})
+	}
+	return i
+}
 
 func Parse(s string) *Input {
 	lines := strings.Split(s, "\n")
@@ -78,7 +101,7 @@ func Parse(s string) *Input {
 			books[BookID(parseInt(book))] = struct{}{}
 		}
 
-		input.Libraries = append(input.Libraries, Library{
+		input.Libraries = append(input.Libraries, &Library{
 			DaysForSignUp:      parseInt(firstLibraryLine[1]),
 			BooksShippedPerDay: parseInt(firstLibraryLine[2]),
 			Books:              books,

@@ -15,7 +15,7 @@ func naive(input *Input) Output {
     }
 }
 
-func getBookFromLibrary(l Library) []BookID {
+func getBookFromLibrary(l *Library) []BookID {
     bookIDs := []BookID{}
     for bookID, _ := range l.Books {
         bookIDs = append(bookIDs, bookID)

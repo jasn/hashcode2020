@@ -20,7 +20,29 @@
     "2": {},
     "3": {},
     "4": {}
-   }
+   },
+   "BestBooks": [
+    {
+     "Book": 3,
+     "Score": 6
+    },
+    {
+     "Book": 4,
+     "Score": 5
+    },
+    {
+     "Book": 2,
+     "Score": 3
+    },
+    {
+     "Book": 1,
+     "Score": 2
+    },
+    {
+     "Book": 0,
+     "Score": 1
+    }
+   ]
   },
   {
    "DaysForSignUp": 3,
@@ -30,7 +52,45 @@
     "2": {},
     "3": {},
     "5": {}
-   }
+   },
+   "BestBooks": [
+    {
+     "Book": 3,
+     "Score": 6
+    },
+    {
+     "Book": 3,
+     "Score": 6
+    },
+    {
+     "Book": 4,
+     "Score": 5
+    },
+    {
+     "Book": 5,
+     "Score": 4
+    },
+    {
+     "Book": 2,
+     "Score": 3
+    },
+    {
+     "Book": 2,
+     "Score": 3
+    },
+    {
+     "Book": 1,
+     "Score": 2
+    },
+    {
+     "Book": 0,
+     "Score": 1
+    },
+    {
+     "Book": 0,
+     "Score": 1
+    }
+   ]
   }
  ]
 }

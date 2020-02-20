@@ -7,12 +7,12 @@ import (
 
 func TestNaive(t *testing.T) {
 
-	input := Input{
+	input := &Input{
 		BooksTotal:     6,
 		LibrariesTotal: 2,
 		Days:           7,
 		BooksScore:     []int{1, 2, 3, 6, 5, 4},
-		Libraries: []Library{
+		Libraries: []*Library{
 			{
 				BooksShippedPerDay: 2,
 				DaysForSignUp:      2,

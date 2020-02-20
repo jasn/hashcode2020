@@ -11,7 +11,7 @@ type LibraryAnswer struct {
 	Books []BookID
 }
 
-func Score(input Input, output Output) (int, error) {
+func Score(input *Input, output Output) (int, error) {
 	score := 0
 	librariesSeen := map[LibraryID]bool{}
 	booksSeen := map[BookID]bool{}
@@ -30,11 +30,11 @@ func Score(input Input, output Output) (int, error) {
 	return score, nil
 }
 
-func getDaysForSignUp(libraries []Library, id LibraryID) int {
+func getDaysForSignUp(libraries []*Library, id LibraryID) int {
 	return libraries[id].DaysForSignUp
 }
 
-func processLibrary(day int, input Input, lib LibraryAnswer, booksSeen map[BookID]bool, libsSeen map[LibraryID]bool) int {
+func processLibrary(day int, input *Input, lib LibraryAnswer, booksSeen map[BookID]bool, libsSeen map[LibraryID]bool) int {
 	signUpDays := input.Libraries[lib.ID].DaysForSignUp
 	day += signUpDays
 
