@@ -26,6 +26,7 @@ type Library struct {
 	BooksShippedPerDay int
 	Books map[BookID]struct{}
 	BestBooks []SortedBook
+	ID LibraryID
 }
 
 type SortedBook struct {
@@ -105,6 +106,7 @@ func Parse(s string) *Input {
 			DaysForSignUp:      parseInt(firstLibraryLine[1]),
 			BooksShippedPerDay: parseInt(firstLibraryLine[2]),
 			Books:              books,
+			ID:				    LibraryID(len(input.Libraries)),
 		})
 	}
 	return input

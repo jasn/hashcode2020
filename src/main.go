@@ -1,11 +1,22 @@
 package main
 
-import "os"
+import (
+    "fmt"
+    "os"
+)
 
 func main() {
-    name := os.Args[1]
+    algo := os.Args[1]
+    name := os.Args[2]
 
     input := LoadInput(name)
-    output := naive(input)
+    var output Output
+    if algo == "naive" {
+        output = naive(input)
+    } else if algo == "sim" {
+        output = Simulation(input)
+    } else {
+        fmt.Println("unknown argument 1")
+    }
     toStdOut(output)
 }
