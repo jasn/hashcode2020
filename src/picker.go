@@ -1,6 +1,6 @@
 package main
 
-func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool) (*Library, bool) {
+func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool, usedBooks map[BookID]bool) (*Library, bool) {
 	bestScore := 0
 	bestIdx := 0
 	foundBest := false
@@ -11,7 +11,7 @@ func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool) (*Li
 		}
 
 		foundBest = true
-		v := Value(daysLeft, lib)
+		v := Value(daysLeft, lib, usedBooks)
 		if v >= bestScore {
 			bestScore = v
 			bestIdx = i
@@ -20,12 +20,18 @@ func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool) (*Li
 	return input.Libraries[bestIdx], foundBest
 }
 
-func Value(daysLeft int, lib *Library) int {
+func Value(daysLeft int, lib *Library, usedBooks map[BookID]bool) int {
 	score := 0
 	for i := 0; i < daysLeft; i++ {
+		if i >= daysLeft {
+			return score
+		}
 		for j := 0; j < lib.BooksShippedPerDay; j++ {
-			if i+j >= daysLeft || i+j >= len(lib.BestBooks) {
+			if i+j >= len(lib.BestBooks) {
 				return score
+			}
+			if _, ok := usedBooks[BookID(i+j)]; ok {
+				continue
 			}
 			score += lib.BestBooks[i+j].Score
 		}

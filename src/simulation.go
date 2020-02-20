@@ -3,11 +3,12 @@ package main
 func Simulation(input *Input) Output {
 
     usedLibs := map[LibraryID]bool{}
+    usedBooks := map[BookID]bool{}
 
     libraries := []LibraryAnswer{}
 
     for daysLeft := input.Days; daysLeft > 0; daysLeft-- {
-        lib, ok := LibraryPicker(input, daysLeft, usedLibs)
+        lib, ok := LibraryPicker(input, daysLeft, usedLibs, usedBooks)
         if !ok {
             break
         }
