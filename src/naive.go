@@ -1,7 +1,7 @@
-package src
+package main
 
 
-func naive(input Input) Output {
+func naive(input *Input) Output {
     libAnswers := []LibraryAnswer{}
     for idx, l := range input.Libraries {
         books := getBookFromLibrary(l)

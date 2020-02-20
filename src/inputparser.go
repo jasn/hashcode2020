@@ -1,4 +1,4 @@
-package src
+package main
 
 import (
 	"io/ioutil"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const dataFolder = "../data"
+const dataFolder = "data"
 
 type Input struct {
 	BooksTotal int
