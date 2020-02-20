@@ -7,7 +7,7 @@ import (
 )
 
 func toStdOut(output Output) {
-    print(toString(output))
+    fmt.Print(toString(output))
 }
 
 func toString(output Output) string {
@@ -34,4 +34,5 @@ func libraryHeader(sb *strings.Builder, id LibraryID, books int) {
     sb.WriteString(strconv.Itoa(int(id)))
     sb.WriteString(" ")
     sb.WriteString(strconv.Itoa(books))
+    sb.WriteString("\n")
 }
