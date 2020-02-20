@@ -1,15 +1,21 @@
 package main
 
 func LibraryPicker(input Input, daysLeft int, usedLibs map[LibraryID]bool) Library {
+	bestScore := 0
+	bestIdx := 0
 	for i, lib := range input.Libraries {
 		libID := LibraryID(i)
 		if _, ok := usedLibs[libID]; ok {
 			continue
 		}
 
-		Value(daysLeft, lib, input.Books)
+		v := Value(daysLeft, lib, input.Books)
+		if v >= bestScore {
+			bestScore = v
+			bestIdx = i
+		}
 	}
-	return input.Libraries[0]
+	return bestIdx
 }
 
 func Value(daysLeft int, lib Library, books BooksScore) int {
