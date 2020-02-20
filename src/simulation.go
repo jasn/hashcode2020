@@ -7,7 +7,10 @@ func Simulation(input *Input) Output {
     libraries := []LibraryAnswer{}
 
     for daysLeft := input.Days; daysLeft > 0; daysLeft-- {
-        lib := LibraryPicker(input, daysLeft, usedLibs)
+        lib, ok := LibraryPicker(input, daysLeft, usedLibs)
+        if !ok {
+            break
+        }
         usedLibs[lib.ID] = true
         a := LibraryAnswer{
             ID:    lib.ID,
