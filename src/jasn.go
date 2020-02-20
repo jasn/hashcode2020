@@ -51,6 +51,7 @@ func processLibrary(day int, input Input, lib LibraryAnswer, booksSeen map[BookI
 			}
 			i++
 		}
+		day++
 	}
 
 	return scoreAdd
