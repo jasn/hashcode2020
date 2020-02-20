@@ -1,8 +1,9 @@
 package main
 
 func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool, usedBooks map[BookID]bool) (*Library, bool) {
-	bestScore := 0
+	//bestScore := 0
 	bestIdx := 0
+	bestRatio := 0.0
 	foundBest := false
 	for i, lib := range input.Libraries {
 		libID := LibraryID(i)
@@ -12,10 +13,16 @@ func LibraryPicker(input *Input, daysLeft int, usedLibs map[LibraryID]bool, used
 
 		foundBest = true
 		v := Value(daysLeft, lib, usedBooks)
-		if v >= bestScore {
-			bestScore = v
+		ratio := float64(v)/float64(lib.DaysForSignUp)
+		if ratio >= bestRatio {
+			//bestScore = v
+			bestRatio = ratio
 			bestIdx = i
 		}
+		//if v >= bestScore {
+		//	bestScore = v
+		//	bestIdx = i
+		//}
 	}
 	return input.Libraries[bestIdx], foundBest
 }
