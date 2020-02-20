@@ -13,9 +13,11 @@ Usage:
 
     cd src
     go build .
-    ./src a > ../solutions/a.out
-    ./src b > ../solutions/b.out
-    ./src c > ../solutions/c.out
-    ./src d > ../solutions/d.out
-    ./src e > ../solutions/e.out
-    ./src f > ../solutions/f.out
+    ./src naive a > ../solutions/a.out
+    ./src naive b > ../solutions/b.out
+    ./src naive c > ../solutions/c.out
+    ./src naive d > ../solutions/d.out
+    ./src naive e > ../solutions/e.out
+    ./src naive f > ../solutions/f.out
+    
+    sim or naive
