@@ -30,9 +30,9 @@ func Value(daysLeft int, lib *Library, usedBooks map[BookID]bool) int {
 			if i+j >= len(lib.BestBooks) {
 				return score
 			}
-			if _, ok := usedBooks[BookID(i+j)]; ok {
-				continue
-			}
+			//if _, ok := usedBooks[BookID(i+j)]; ok {
+			//	continue
+			//}
 			score += lib.BestBooks[i+j].Score
 		}
 	}
