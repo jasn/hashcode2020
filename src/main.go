@@ -1,7 +1,11 @@
 package main
 
+import "os"
+
 func main() {
-    input := LoadInput("a")
+    name := os.Args[1]
+
+    input := LoadInput(name)
     output := naive(input)
     toStdOut(output)
 }
