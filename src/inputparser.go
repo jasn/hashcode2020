@@ -57,8 +57,8 @@ func LoadInput(name string) *Input {
 }
 
 func PostProcess(i *Input) *Input {
-	var sortedBooks []SortedBook
 	for _, library := range i.Libraries {
+		var sortedBooks []SortedBook
 		for book, _ := range library.Books {
 			sortedBooks = append(sortedBooks, SortedBook{
 				Book:  book,
