@@ -15,6 +15,7 @@ type Input struct {
 type BooksScore []int
 
 type Library struct {
-	
-
+	DaysForSignUp int
+	BooksShippedPerDay int
+	Books map[BookID]struct{}
 }
