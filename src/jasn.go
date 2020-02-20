@@ -1,42 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Output struct {
-	Libraries LibrariesAnswer
+	Libraries []LibraryAnswer
 }
-
-type LibrariesAnswer []LibraryAnswer
-
-func (l LibrariesAnswer) Copy() LibrariesAnswer {
-	lCopy := make([]LibraryAnswer, len(l))
-	for _, la := range l {
-		lCopy = append(lCopy, la.Copy())
-	}
-	return lCopy
-}
-
 
 type LibraryAnswer struct {
 	ID    LibraryID
-	Books BooksIDs
-}
-
-type BooksIDs []BookID
-
-func (l BooksIDs) Copy() BooksIDs {
-	books := make(BooksIDs, len(l))
-	for _, la := range l {
-		books = append(books, la)
-	}
-	return books
-}
-
-func (la LibraryAnswer) Copy() LibraryAnswer {
-	return LibraryAnswer{
-		ID: la.ID,
-		Books:la.Books.Copy(),
-	}
+	Books []BookID
 }
 
 func Score(input *Input, output Output) (int, error) {
@@ -84,8 +58,4 @@ func processLibrary(day int, input *Input, lib LibraryAnswer, booksSeen map[Book
 	}
 
 	return scoreAdd
-}
-
-func (o Output) Copy() Output {
-	return Output{Libraries:o.Libraries.Copy()}
 }
