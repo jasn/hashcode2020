@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"path/filepath"
+	"sync"
 )
 
 func LoadBestOutput(name string) *Output{
@@ -32,7 +34,8 @@ func ImproveAllSolutions(names []string) {
 		input := LoadInput(name)
 		output := LoadBestOutput(name)
 		if output == nil {
-			res := naive(input)
+			res := Simulation(input)
+			println(fmt.Sprintf("Computed simulation for %s", name))
 			output = &res
 		}
 		score, err := Score(input, *output)
@@ -45,30 +48,48 @@ func ImproveAllSolutions(names []string) {
 		scores = append(scores, score)
 	}
 
+
+	exec := NewThrottledExecutor(context.Background(), 10)
+	var lock sync.RWMutex
 	for {
-		i := rand.Intn(len(outputs))
+		exec.Go(func() error {
+			i := rand.Intn(len(outputs))
 
-		curScore := scores[i]
-		curOutput := copyOutput(outputs[i])
-		input := inputs[i]
+			lock.RLock()
+			curScore := scores[i]
+			curOutput := copyOutput(outputs[i])
+			input := inputs[i]
+			lock.RUnlock()
 
-		newOutput, newScore := tryImprove(input, curOutput, curScore)
-		if newOutput != nil {
-			println(fmt.Sprintf("Improved %s from %d to %d", names[i], scores[i], newScore))
+			newOutput, newScore := tryImprove(input, curOutput, curScore)
+			if newOutput != nil {
+				lock.Lock()
+				println(fmt.Sprintf("Improved %s from %d to %d, total: %d", names[i], scores[i], newScore, total(scores)))
 
-			bytes, err := json.MarshalIndent(newOutput, "", "  ")
-			if err != nil {
-				panic("failed marshalling output")
+				bytes, err := json.MarshalIndent(newOutput, "", "  ")
+				if err != nil {
+					panic("failed marshalling output")
+				}
+				err = ioutil.WriteFile(filepath.Join(dataFolder, names[i]+".best"), bytes, 0775)
+				if err != nil {
+					panic("failed writing output")
+				}
+
+				outputs[i] = newOutput
+				scores[i] = newScore
+				lock.Unlock()
 			}
-			err = ioutil.WriteFile(filepath.Join(dataFolder, names[i]+".best"), bytes, 0775)
-			if err != nil {
-				panic("failed writing output")
-			}
-
-			outputs[i] = newOutput
-			scores[i] = newScore
-		}
+			return nil
+		})
 	}
+}
+
+func total(scores []int) int {
+	cur := 0
+	for _, score := range scores {
+		cur += score
+	}
+	return cur
 }
 
 func tryImprove(input *Input, output *Output, curScore int) (*Output, int) {
