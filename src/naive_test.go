@@ -16,23 +16,12 @@ func TestNaive(t *testing.T) {
 			{
 				BooksShippedPerDay: 2,
 				DaysForSignUp:      2,
-				Books: map[BookID]struct{}{
-					0: struct{}{},
-					1: struct{}{},
-					2: struct{}{},
-					3: struct{}{},
-					4: struct{}{},
-				},
+				Books:              []BookID{0, 1, 2, 3, 4},
 			},
 			{
 				BooksShippedPerDay: 1,
 				DaysForSignUp:      3,
-				Books: map[BookID]struct{}{
-					3: struct{}{},
-					2: struct{}{},
-					5: struct{}{},
-					0: struct{}{},
-				},
+				Books:              []BookID{3, 2, 5, 0},
 			},
 		},
 	}
@@ -41,5 +30,5 @@ func TestNaive(t *testing.T) {
 
 	toStdOut(output)
 	val, _ := Score(input, output)
-	fmt.Println(val)
+	fmt.Println("score:", val)
 }

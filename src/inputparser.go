@@ -11,26 +11,26 @@ import (
 const dataFolder = "../data"
 
 type Input struct {
-	BooksTotal int
+	BooksTotal     int
 	LibrariesTotal int
-	Days int
+	Days           int
 
 	BooksScore BooksScore
-	Libraries []*Library
+	Libraries  []*Library
 }
 
 type BooksScore []int
 
 type Library struct {
-	DaysForSignUp int
+	DaysForSignUp      int
 	BooksShippedPerDay int
-	Books map[BookID]struct{}
-	BestBooks []SortedBook
-	ID LibraryID
+	Books              []BookID
+	BestBooks          []SortedBook
+	ID                 LibraryID
 }
 
 type SortedBook struct {
-	Book BookID
+	Book  BookID
 	Score int
 }
 
@@ -60,7 +60,7 @@ func LoadInput(name string) *Input {
 func PostProcess(i *Input) *Input {
 	for _, library := range i.Libraries {
 		var sortedBooks []SortedBook
-		for book, _ := range library.Books {
+		for _, book := range library.Books {
 			sortedBooks = append(sortedBooks, SortedBook{
 				Book:  book,
 				Score: i.BooksScore[book],
@@ -79,7 +79,7 @@ func Parse(s string) *Input {
 	firstLine := strings.Split(lines[0], " ")
 
 	input := &Input{
-		BooksTotal:   parseInt(firstLine[0])  ,
+		BooksTotal:     parseInt(firstLine[0]),
 		LibrariesTotal: parseInt(firstLine[1]),
 		Days:           parseInt(firstLine[2]),
 	}
@@ -89,7 +89,7 @@ func Parse(s string) *Input {
 		input.BooksScore = append(input.BooksScore, parseInt(bookScoreString))
 	}
 
-	for i := 2; i+1 < len(lines); i+=2 {
+	for i := 2; i+1 < len(lines); i += 2 {
 		firstLibraryLine := strings.Split(lines[i], " ")
 		secondLibraryLine := strings.Split(lines[i+1], " ")
 
@@ -97,16 +97,17 @@ func Parse(s string) *Input {
 			continue
 		}
 
-		books := make(map[BookID]struct{}, parseInt(firstLibraryLine[0]))
+		//books := make(map[BookID]struct{}, parseInt(firstLibraryLine[0]))
+		var books []BookID
 		for _, book := range secondLibraryLine {
-			books[BookID(parseInt(book))] = struct{}{}
+			books = append(books, BookID(parseInt(book)))
 		}
 
 		input.Libraries = append(input.Libraries, &Library{
 			DaysForSignUp:      parseInt(firstLibraryLine[1]),
 			BooksShippedPerDay: parseInt(firstLibraryLine[2]),
 			Books:              books,
-			ID:				    LibraryID(len(input.Libraries)),
+			ID:                 LibraryID(len(input.Libraries)),
 		})
 	}
 	return input

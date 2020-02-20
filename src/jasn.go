@@ -39,18 +39,19 @@ func processLibrary(day int, input *Input, lib LibraryAnswer, booksSeen map[Book
 	day += signUpDays
 
 	scoreAdd := 0
-	for i := 0; i < len(lib.Books); i++ {
+	for i := 0; i < len(lib.Books); {
 		if input.Days <= day {
 			break
 		}
-		for j := 0; j < input.Libraries[lib.ID].BooksShippedPerDay && i+j < len(lib.Books); j++ {
+		j := 0
+		for j = 0; j < input.Libraries[lib.ID].BooksShippedPerDay && i+j < len(lib.Books); j++ {
 			bookID := lib.Books[i+j]
 			if _, ok := booksSeen[bookID]; !ok {
 				scoreAdd += input.BooksScore[bookID]
 				booksSeen[bookID] = true
 			}
-			i++
 		}
+		i = i + j
 		day++
 	}
 
