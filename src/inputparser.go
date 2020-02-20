@@ -1,8 +1,5 @@
 package src
 
-
-type BookID int
-
 type Input struct {
 	BooksTotal int
 	LibrariesTotal int
