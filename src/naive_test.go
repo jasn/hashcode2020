@@ -1,7 +1,6 @@
 package src
 
 import (
-    "fmt"
     "testing"
 )
 
@@ -39,6 +38,6 @@ func TestNaive(t *testing.T) {
 
     output := naive(input)
 
-    fmt.Println(output)
+    toStdOut(output)
 }
 
