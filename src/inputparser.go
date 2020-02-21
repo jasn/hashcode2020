@@ -26,6 +26,7 @@ type Library struct {
 	BooksShippedPerDay int
 	Books              []BookID
 	BestBooks          []SortedBook
+	BestUniqueBooks    []SortedBook
 	ID                 LibraryID
 }
 

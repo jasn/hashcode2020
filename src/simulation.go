@@ -6,18 +6,22 @@ func Simulation(input *Input) Output {
     usedBooks := map[BookID]bool{}
 
     libraries := []LibraryAnswer{}
-
-    for daysLeft := input.Days; daysLeft > 0; daysLeft-- {
+    daysLeft := input.Days
+    for daysLeft > 0 {
         lib, ok := LibraryPicker(input, daysLeft, usedLibs, usedBooks)
         if !ok {
             break
         }
         usedLibs[lib.ID] = true
+        for _, b := range lib.BestUniqueBooks {
+            usedBooks[b.Book] = true
+        }
         a := LibraryAnswer{
             ID:    lib.ID,
-            Books: convertToBookIDs(lib.BestBooks),
+            Books: convertToBookIDs(lib.BestUniqueBooks),
         }
         libraries = append(libraries, a)
+        daysLeft -= lib.DaysForSignUp
     }
 
     return Output{
